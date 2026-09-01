@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Nexiara.Mobile.ViewModels"
+             x:Class="Nexiara.Mobile.Pages.KeyboardPage"
+             BackgroundColor="#0F0F1A"
+             Title="Клавиатура и Медиа">
+
+    <ContentPage.BindingContext>
+        <vm:KeyboardViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
+
+            <!-- Поле прямого ввода текста -->
+            <Border BackgroundColor="#181828" Stroke="#2A2A40" StrokeThickness="1" Padding="15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="ОТПРАВКА ТЕКСТА НА ПК" FontSize="12" FontAttributes="Bold" TextColor="#00E5FF" />
+
+                    <Entry Text="{Binding InputText}"
+                           Placeholder="Введите текст здесь..."
+                           PlaceholderColor="#555577"
+                           TextColor="#FFFFFF"
+                           BackgroundColor="#0F0F1A"
+                           HeightRequest="45" />
+
+                    <Button Text="ОТПРАВИТЬ"
+                            Command="{Binding SendTextCommand}"
+                            BackgroundColor="#1E1E2C"
+                            TextColor="#00E5FF"
+                            BorderColor="#00E5FF"
+                            BorderWidth="1"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            FontAttributes="Bold" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Системные клавиши -->
+            <Label Text="СИСТЕМНЫЕ КЛАВИШИ" FontSize="14" FontAttributes="Bold" TextColor="#8E8EA0" />
+
+            <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto, Auto" ColumnSpacing="10" RowSpacing="10">
+                <Button Grid.Row="0" Grid.Column="0" Text="🪟 WIN" Command="{Binding KeyComboCommand}" CommandParameter="win" BackgroundColor="#1E1E2C" TextColor="#FFFFFF" CornerRadius="10" HeightRequest="45" />
+                <Button Grid.Row="0" Grid.Column="1" Text="🔄 ALT + TAB" Command="{Binding KeyComboCommand}" CommandParameter="alt_tab" BackgroundColor="#1E1E2C" TextColor="#FFFFFF" CornerRadius="10" HeightRequest="45" />
+                <Button Grid.Row="1" Grid.Column="0" Text="📋 CTRL + C" Command="{Binding KeyComboCommand}" CommandParameter="ctrl_c" BackgroundColor="#1E1E2C" TextColor="#FFFFFF" CornerRadius="10" HeightRequest="45" />
+                <Button Grid.Row="1" Grid.Column="1" Text="📌 CTRL + V" Command="{Binding KeyComboCommand}" CommandParameter="ctrl_v" BackgroundColor="#1E1E2C" TextColor="#FFFFFF" CornerRadius="10" HeightRequest="45" />
+                <Button Grid.Row="2" Grid.Column="0" Text="⌫ BACKSPACE" Command="{Binding KeyComboCommand}" CommandParameter="backspace" BackgroundColor="#1E1E2C" TextColor="#FF5252" CornerRadius="10" HeightRequest="45" />
+                <Button Grid.Row="2" Grid.Column="1" Text="↵ ENTER" Command="{Binding KeyComboCommand}" CommandParameter="enter" BackgroundColor="#1E1E2C" TextColor="#00E5FF" CornerRadius="10" HeightRequest="45" />
+            </Grid>
+
+            <!-- Мультимедиа пульт -->
+            <Label Text="УПРАВЛЕНИЕ МЕДИА" FontSize="14" FontAttributes="Bold" TextColor="#8E8EA0" />
+
+            <Grid ColumnDefinitions="*, *, *" ColumnSpacing="10">
+                <Button Grid.Column="0" Text="🔉 VOL -" Command="{Binding KeyComboCommand}" CommandParameter="vol_down" BackgroundColor="#1E1E2C" TextColor="#FFFFFF" CornerRadius="10" HeightRequest="45" />
+                <Button Grid.Column="1" Text="⏯️ PLAY/PAUSE" Command="{Binding KeyComboCommand}" CommandParameter="media_play" BackgroundColor="#1E1E2C" TextColor="#00E5FF" CornerRadius="10" HeightRequest="45" />
+                <Button Grid.Column="2" Text="🔊 VOL +" Command="{Binding KeyComboCommand}" CommandParameter="vol_up" BackgroundColor="#1E1E2C" TextColor="#FFFFFF" CornerRadius="10" HeightRequest="45" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

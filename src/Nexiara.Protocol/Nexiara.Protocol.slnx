@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="../Nexiara.Abstractions/Nexiara.Abstractions.csproj" />
+  <Project Path="../Nexiara.Core/Nexiara.Core.csproj" />
+  <Project Path="../Nexiara.Mobile/Nexiara.Mobile.csproj" />
+  <Project Path="../Nexiara.Platform.Windows/Nexiara.Platform.Windows.csproj" />
+  <Project Path="../Nexiara.Streaming/Nexiara.Streaming.csproj" Id="35e90bda-1460-43de-9714-a50ff1eb776c" />
+  <Project Path="../Nexiara.UI/Nexiara.UI.csproj" />
+  <Project Path="Nexiara.Protocol.csproj" />
+</Solution>

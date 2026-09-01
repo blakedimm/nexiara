@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Nexiara.Mobile.ViewModels"
+             x:Class="Nexiara.Mobile.Pages.TelemetryPage"
+             BackgroundColor="#0F0F1A"
+             Title="Состояние ПК">
+
+    <ContentPage.BindingContext>
+        <vm:TelemetryViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
+
+            <Label Text="✦ ТЕЛЕМЕТРИЯ СИСТЕМЫ"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="#00E5FF"
+                   HorizontalOptions="Center" />
+
+            <!-- Карточка активного окна -->
+            <Border BackgroundColor="#181828" Stroke="#2A2A40" StrokeThickness="1" Padding="15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="АКТИВНОЕ ОКНО НА ПК" FontSize="11" FontAttributes="Bold" TextColor="#8E8EA0" />
+                    <Label Text="{Binding ActiveWindow}" FontSize="15" FontAttributes="Bold" TextColor="#FFFFFF" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Карточка оперативной памяти -->
+            <Border BackgroundColor="#181828" Stroke="#2A2A40" StrokeThickness="1" Padding="15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="ИСПOЛЬЗОВАНИЕ ОЗУ" FontSize="11" FontAttributes="Bold" TextColor="#8E8EA0" />
+                    <Label Text="{Binding RamUsage}" FontSize="20" FontAttributes="Bold" TextColor="#00E5FF" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Модуль синхронизации буфера обмена -->
+            <Border BackgroundColor="#181828" Stroke="#2A2A40" StrokeThickness="1" Padding="15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="БУФЕР ОБМЕНА СМАРТФОНА" FontSize="11" FontAttributes="Bold" TextColor="#8E8EA0" />
+                    <Label Text="{Binding ClipboardText}" FontSize="13" TextColor="#D0D0E0" />
+
+                    <Button Text="📋 ОТПРАВИТЬ БУФЕР НА ПК"
+                            Command="{Binding SyncClipboardCommand}"
+                            BackgroundColor="#1E1E2C"
+                            TextColor="#00E5FF"
+                            BorderColor="#00E5FF"
+                            BorderWidth="1"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            FontAttributes="Bold" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

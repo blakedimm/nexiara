@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Nexiara.Mobile.ViewModels"
+             xmlns:shapes="clr-namespace:Microsoft.Maui.Controls.Shapes;assembly=Microsoft.Maui.Controls"
+             x:Class="Nexiara.Mobile.Pages.MainPage"
+             BackgroundColor="{StaticResource OledBackground}"
+             Title="NEXIARA CONTROL">
+
+    <ContentPage.BindingContext>
+        <vm:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, *, Auto" Padding="24" RowSpacing="20">
+
+        <!-- 1. ВЕРХНИЙ ЗАГОЛОВОК И СТАТУС ЭКОСИСТЕМЫ -->
+        <VerticalStackLayout Grid.Row="0" Spacing="6" Margin="0,12,0,0">
+            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                <Label Text="NEXIARA"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource TextPrimary}"
+                       CharacterSpacing="2" />
+                <Label Text="CORE"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource CyberCyan}"
+                       CharacterSpacing="2" />
+            </HorizontalStackLayout>
+
+            <Label Text="Автономный узел бесшовного управления"
+                   FontSize="12"
+                   TextColor="{StaticResource TextSecondary}"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- 2. ИНТЕРАКТИВНАЯ КАРТОЧКА СТАТУСА ПК -->
+        <VerticalStackLayout Grid.Row="1" VerticalOptions="Center" Spacing="20">
+
+            <!-- Стеклянная карточка хоста -->
+            <Border Style="{StaticResource GlassCardStyle}">
+                <VerticalStackLayout Spacing="16">
+
+                    <Grid ColumnDefinitions="Auto, *, Auto">
+                        <HorizontalStackLayout Grid.Column="0" Spacing="10" VerticalOptions="Center">
+                            <!-- Пульсирующий неоновый индикатор -->
+                            <Border WidthRequest="12" HeightRequest="12"
+                                    StrokeThickness="0"
+                                    BackgroundColor="{Binding StatusColor}">
+                                <Border.StrokeShape>
+                                    <shapes:RoundRectangle CornerRadius="6" />
+                                </Border.StrokeShape>
+                            </Border>
+
+                            <Label Text="ЦЕЛЕВОЙ ХОСТ"
+                                   FontSize="11"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextMuted}"
+                                   CharacterSpacing="1" />
+                        </HorizontalStackLayout>
+
+                        <Label Grid.Column="2"
+                               Text="ONLINE"
+                               FontSize="10"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource StatusSuccess}"
+                               VerticalOptions="Center" />
+                    </Grid>
+
+                    <BoxView HeightRequest="1" Color="{StaticResource GlassBorder}" />
+
+                    <!-- Имя устройства и IP -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{Binding TargetPcName}"
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource TextPrimary}" />
+
+                        <HorizontalStackLayout Spacing="6">
+                            <Label Text="IP:"
+                                   FontSize="13"
+                                   TextColor="{StaticResource TextMuted}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding TargetIpAddress}"
+                                   FontSize="13"
+                                   TextColor="{StaticResource CyberCyan}"
+                                   FontAttributes="Bold" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Сообщение статуса -->
+            <Label Text="{Binding StatusMessage}"
+                   FontSize="13"
+                   TextColor="{StaticResource TextSecondary}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+
+            <ActivityIndicator IsRunning="{Binding IsScanning}"
+                               IsVisible="{Binding IsScanning}"
+                               Color="{StaticResource CyberCyan}"
+                               HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- 3. НИЖНЯЯ ЗОНА ДЕЙСТВИЙ (Thumb Zone) -->
+        <VerticalStackLayout Grid.Row="2" Spacing="12" Margin="0,0,0,12">
+            <Button Text="⚡ ПОИСК ПК В ЛОКАЛЬНОЙ СЕТИ"
+                    Command="{Binding ScanCommand}"
+                    IsEnabled="{Binding IsNotScanning}"
+                    Style="{StaticResource CyberButtonStyle}" />
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>

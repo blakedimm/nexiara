@@ -1,0 +1,29 @@
+## Build and Output directories
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Pp]ublish/
+*.exe
+*.dll
+*.pdb
+*.apk
+*.aab
+
+## Visual Studio & Rider
+.vs/
+.idea/
+*.user
+*.userosscache
+*.suo
+*.suo.old
+*.sln.docstates
+
+## Android / MAUI / Mobile
+.gradle/
+build/
+*.dex
+*.apk
+
+## Logs & Temp
+*.log
+*.tmp

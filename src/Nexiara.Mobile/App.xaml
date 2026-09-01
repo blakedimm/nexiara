@@ -1,0 +1,16 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Nexiara.Mobile"
+             x:Class="Nexiara.Mobile.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Подключаем нашу новую палитру OLED -->
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <!-- Обязательно подключаем наши новые стеклянные и неоновые стили! -->
+                <ResourceDictionary Source="Resources/Styles/AppStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

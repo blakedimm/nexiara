@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<!-- Было net10.0-windows10.0.19041.0, меняем на базовый windows: -->
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Vortice.Direct3D11" Version="3.8.3" />
+		<PackageReference Include="Vortice.DXGI" Version="3.8.3" />
+		<PackageReference Include="System.Drawing.Common" Version="10.0.10" />
+		<PackageReference Include="System.Management" Version="8.0.0" />
+		<PackageReference Include="Vortice.MediaFoundation" Version="3.8.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Nexiara.Abstractions\Nexiara.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>

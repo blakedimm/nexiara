@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Nexiara.Abstractions/Nexiara.Abstractions.csproj" />
+    <Project Path="src/Nexiara.Core/Nexiara.Core.csproj" />
+    <Project Path="src/Nexiara.Mobile/Nexiara.Mobile.csproj" />
+    <Project Path="src/Nexiara.Platform.Windows/Nexiara.Platform.Windows.csproj" />
+    <Project Path="src/Nexiara.Protocol/Nexiara.Protocol.csproj" />
+    <Project Path="src/Nexiara.Streaming/Nexiara.Streaming.csproj" />
+    <Project Path="src/Nexiara.UI/Nexiara.UI.csproj" />
+    <Project Path="src/NexiaraClient/NexiaraClient.csproj" />
+  </Folder>
+</Solution>
