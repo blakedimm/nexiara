@@ -1,116 +1,128 @@
-# ⚡ Nexiara — High-Performance Cross-Device Synchronization & Remote OS Control
+# ⚡ Nexiara — Межплатформенная синхронизация и удалённое управление ОС
 
+[![Статус](https://img.shields.io/badge/Статус-В%20разработке%20(WIP%20%2F%20PoC)-orange)]()
 [![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
 [![C#](https://img.shields.io/badge/C%23-13.0-239120?logo=c-sharp&logoColor=white)](https://learn.microsoft.com/en-us/dotnet/csharp/)
-[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Android-informational)](https://github.com/blakedimm/nexiara)
-[![Low Latency](https://img.shields.io/badge/Streaming-DXGI%20%2F%20WGC-blueviolet)]()
+[![Платформа](https://img.shields.io/badge/Платформа-Windows%20%7C%20Android-informational)](https://github.com/blakedimm/nexiara)
+[![Стриминг](https://img.shields.io/badge/Стриминг-DXGI%20%2F%20WGC-blueviolet)]()
 
-> **Nexiara** is an enterprise-grade cross-device orchestration and low-latency remote control ecosystem built on **.NET 10**. It provides hardware-accelerated desktop capture, peer-to-peer UDP mesh discovery, Win32 raw input virtualization, and cross-platform mobile connectivity.
+> ⚠️ **Статус проекта (Proof of Concept / Экспериментальный прототип):**  
+> Проект находится на этапе активной разработки и проверки архитектурных концепций. На текущий момент компоненты захвата кадров, эмуляции ввода и сетевого взаимодействия работают нестабильно, содержат известные ошибки и требуют оптимизации задержек. Исходный код открыт для демонстрации архитектуры и низкоуровневых инженерных решений.
 
 ---
 
-## 🏛 System Architecture
+## 🏛 Архитектура системы
 
 ```
 ┌───────────────────────────────────────────────────────────────┐
 │                      Nexiara.UI / Client                      │
-│            (Desktop WPF/WinUI Overlay & Test Runner)          │
+│             (Десктопный оверлей WPF/WinUI и тест-раннер)      │
 └───────────────────────────────┬───────────────────────────────┘
                                 │
 ┌───────────────────────────────┴───────────────────────────────┐
-│                       Nexiara.Core                            │
-│  • PeerSession Management       • ActionDispatcher Pipeline   │
-│  • TCP High-Throughput Engine   • UDP Beacon Auto-Discovery   │
+│                         Nexiara.Core                          │
+│  • Менеджмент PeerSession       • Пайплайн ActionDispatcher   │
+│  • Асинхронный TCP-движок       • Автообнаружение UDP-маяками │
 └───────────────────────────────┬───────────────────────────────┘
                                 │
         ┌───────────────────────┴───────────────────────┐
         ▼                                               ▼
 ┌───────────────────────────────┐       ┌───────────────────────────────┐
-│       Nexiara.Streaming       │       │   Nexiara.Platform.Windows    │
-│  • DXGI Desktop Duplication   │       │  • Win32 Raw Input Simulator  │
-│  • Windows Graphics Capture   │       │  • Shared Clipboard Sync      │
-│  • Fast NV12 Frame Pipeline   │       │  • System Audio & Diagnostics │
+│       Nexiara.Streaming       │       │    Nexiara.Platform.Windows   │
+│  • DXGI Desktop Duplication   │       │  • Виртуализация ввода Win32  │
+│  • Windows Graphics Capture   │       │  • Синхронизация буфера       │
+│  • Конвейер кадров NV12 (PoC) │       │  • Аудио и диагностика ОС     │
 └───────────────────────────────┘       └───────────────────────────────┘
                                 │
         ┌───────────────────────┴───────────────────────┐
         ▼                                               ▼
 ┌───────────────────────────────┐       ┌───────────────────────────────┐
-│       Nexiara.Protocol        │       │        Nexiara.Mobile         │
-│  • Action Serialization       │       │  • Android Client Gateway     │
-│  • Mesh Capability Contracts  │       │  • Touch Event Mapping        │
+│        Nexiara.Protocol       │       │         Nexiara.Mobile        │
+│  • Сериализация действий      │       │  • Шлюз Android-клиента       │
+│  • Контракты взаимодействия   │       │  • Маппинг сенсорного ввода   │
 └───────────────────────────────┘       └───────────────────────────────┘
 ```
 
 ---
 
-## 🚀 Key Modules & Capabilities
+## 🚀 Ключевые модули и возможности
 
-### 1. 📺 Low-Latency Screen Streaming (`Nexiara.Streaming`)
-* **Hardware-Accelerated Frame Capture:** Multi-backend capture engine supporting **DXGI Desktop Duplication API** and modern **Windows Graphics Capture (WGC)** with GDI fallback.
-* **NV12 Color Converter:** Zero-copy color space transformation pipeline designed for real-time video encoder ingestion.
-* **Touch-to-Screen Mapping:** `AbsoluteTouchExecutor` transforming remote multi-touch coordinates into desktop pointer gestures.
+### 1. 📺 Захват экрана и видеопоток (`Nexiara.Streaming`)
+* **Аппаратный захват кадров:** движок захвата с поддержкой **DXGI Desktop Duplication API** и современного **Windows Graphics Capture (WGC)** с программным откатом (GDI fallback).
+* **Конвертер NV12:** экспериментальный конвейер трансформации цветовых пространств без лишних копирований (zero-copy), предназначенный для видеокодеков реального времени.
+* **Маппинг сенсорного ввода:** `AbsoluteTouchExecutor` для трансляции удалённых мультитач-координат в жесты курсора рабочего стола.
 
-### 2. 🌐 Mesh Networking & Peer Discovery (`Nexiara.Core`)
-* **Zero-Config LAN Pairing:** Background UDP beacon broadcaster and listener (`UdpDiscoveryService` / `UdpBeaconListener`) for automatic client detection.
-* **Bi-Directional Action Stream:** Fast async TCP node client/listener handling structured serialized actions without thread blocking.
+### 2. 🌐 Сетевой слой и обнаружение узлов (`Nexiara.Core`)
+* **Автообнаружение в локальной сети (Zero-Config):** фоновый рассыльщик и слушатель широковещательных UDP-маяков (`UdpDiscoveryService` / `UdpBeaconListener`) для автоматического поиска клиентов.
+* **Двунаправленный поток команд:** асинхронный сетевой клиент/сервер на TCP для неблокирующей обработки сериализованных команд.
 
-### 3. 🪟 Windows OS Integration (`Nexiara.Platform.Windows`)
-* **Win32 Input Virtualization:** Low-level keyboard and mouse simulation (`SendInput` via `Win32InputExecutor`).
-* **Bidirectional Clipboard Sync:** Real-time text and media clipboard propagation between paired endpoints.
-* **Firewall & Telemetry:** Automated Windows Firewall configuration rule management and system diagnostics.
+### 3. 🪟 Интеграция с Windows (`Nexiara.Platform.Windows`)
+* **Виртуализация ввода Win32:** низкоуровневая эмуляция клавиатуры и мыши через `SendInput` (`Win32InputExecutor`).
+* **Двунаправленная синхронизация буфера обмена:** передача текста и медиаданных между сопряжёнными устройствами в реальном времени.
+* **Брандмауэр и телеметрия:** автоматическая настройка правил Windows Firewall и сбор диагностической информации системы.
 
-### 4. 📱 Mobile Gateway (`Nexiara.Mobile`)
-* Native Android client backend (.NET Android) supporting remote session initiation, touch mapping, and secure pairing storage.
+### 4. 📱 Мобильный шлюз (`Nexiara.Mobile`)
+* Архитектурный прототип клиента под Android (.NET Android) с поддержкой инициализации удалённых сессий, маппинга касаний и безопасного хранения пары устройств.
 
 ---
 
-## 📂 Solution Structure
+## 🚧 Текущие проблемы и вектор разработки (Roadmap)
+
+- [ ] Устранение утечек памяти и артефактов при длительном DXGI-захвате.
+- [ ] Оптимизация задержки (latency) при передаче кадров по локальной сети.
+- [ ] Доработка реконнекта сокетов при разрыве Wi-Fi соединения.
+- [ ] Стабилизация сенсорного ввода (сглаживание дрожания курсора при мультитаче).
+- [ ] Рефакторинг потокобезопасности диспетчера действий (`ActionDispatcher`).
+
+---
+
+## 📂 Структура решения
 
 ```
 Nexiara/
 ├── Nexiara.sln
 ├── src/
-│   ├── Nexiara.Abstractions/       # Contracts, interfaces & base providers
-│   ├── Nexiara.Core/               # TCP/UDP networking, dispatchers & sessions
-│   ├── Nexiara.Protocol/           # Action payload models & JSON contexts
-│   ├── Nexiara.Platform.Windows/   # Win32 APIs, input injection & clipboard
-│   ├── Nexiara.Streaming/          # DXGI/WGC screen capture & pixel pipelines
-│   ├── Nexiara.UI/                 # Desktop interface & overlay windows
-│   ├── Nexiara.Mobile/             # Android mobile client architecture
-│   └── NexiaraClient/              # Standalone client agent & streamer
+│   ├── Nexiara.Abstractions/       # Контракты, интерфейсы и базовые провайдеры
+│   ├── Nexiara.Core/               # TCP/UDP сокеты, диспетчеры и сессии
+│   ├── Nexiara.Protocol/           # Модели полезной нагрузки и JSON-контексты
+│   ├── Nexiara.Platform.Windows/   # Win32 API, инжекция ввода и буфер обмена
+│   ├── Nexiara.Streaming/          # DXGI/WGC захват и конвейер пикселей
+│   ├── Nexiara.UI/                 # Тестовый интерфейс и десктопные окна
+│   ├── Nexiara.Mobile/             # Архитектура клиента под Android
+│   └── NexiaraClient/              # Автономный агент подключения и стример
 └── README.md
 ```
 
 ---
 
-## 🛠 Tech Stack
+## 🛠 Стек технологий
 
-* **Core Platform:** C# 13 / .NET 10 (.NET Core, .NET Windows, .NET Android)
-* **Capture APIs:** DXGI Desktop Duplication, Direct3D 11, Windows.Graphics.Capture
-* **OS Interop:** P/Invoke Win32 APIs (`user32.dll`, `kernel32.dll`, `dwmapi.dll`)
-* **Networking:** Async TCP/IP Sockets, UDP Multicast Beacons, System.Net.Sockets
-* **Serialization:** High-performance System.Text.Json source generation
+* **Базовая платформа:** C# 13 / .NET 10 (.NET Core, .NET Windows, .NET Android)
+* **Графика и захват:** DXGI Desktop Duplication, Direct3D 11, Windows.Graphics.Capture
+* **Интероп с ОС:** P/Invoke к Win32 APIs (`user32.dll`, `kernel32.dll`, `dwmapi.dll`)
+* **Сеть:** Асинхронные сокеты TCP/IP, широковещательные маяки UDP, `System.Net.Sockets`
+* **Сериализация:** Высокопроизводительный `System.Text.Json` (Source Generation)
 
 ---
 
-## 🚀 Building & Running
+## 🚀 Сборка и запуск
 
-### Prerequisites
+### Требования
 * [.NET 10 SDK](https://dotnet.microsoft.com/)
-* Windows 10/11 (for Desktop Streaming & DXGI features)
+* Windows 10/11 (для захвата экрана DXGI и Win32-функционала)
 
 ```bash
-# Clone the repository
-git clone [https://github.com/blakedimm/nexiara.git](https://github.com/blakedimm/nexiara.git)
+# Клонирование репозитория
+git clone https://github.com/blakedimm/nexiara.git
 cd nexiara
 
-# Restore and build the complete solution
+# Восстановление зависимостей и сборка
 dotnet restore
-dotnet build Nexiara.sln -c Release
+dotnet build Nexiara.sln -c Debug
 ```
 
 ---
 
-## 👨‍💻 Author
-* **Developer:** [Blake](https://github.com/blakedimm)
-* **Focus:** Low-Level Systems Programming, Distributed Mesh Networks & High-Performance Media Pipelines
+## 👨‍💻 Автор
+* **Разработчик:** [blakedimm](https://github.com/blakedimm)
+* **Направление:** Системное низкоуровневое программирование, распределённые сети и высокопроизводительные конвейеры медиа
